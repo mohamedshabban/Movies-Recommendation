@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block title %}Movies{% endblock title %}</title>
+    {% load static %}
+
+	<link rel="stylesheet" type="text/css" href="{% static 'web/css/bootstrap.min.css'%}">
+	<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' >
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='{% static "web/css/base.css" %}' />
+
+    <style type="text/css">
+        .thumbnail p, .thumbnail h4 {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            }
+        .star-rating {
+            line-height:32px;
+            font-size:1.25em;
+            }
+
+.star-rating .fa-star{color: yellow;}
+
+input[type=text], select {
+  width:100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.submit {background-color: #008CBA;}
+
+.pagination {
+    margin-top: 1em;
+}
+
+.pagination a {
+    text-decoration: none;
+}
+
+.pagination-number {
+    padding: 0.5em 0.8em;
+    border-radius: 2px;
+    color: #fff;
+    background-color: #6D85C7;
+}
+
+.pagination-number:hover,
+.pagination-current {
+    background-color: #3354AA;
+}
+
+.pagination-action {
+    margin: 0 0.1em;
+    display: inline-block;
+    padding: 0.5em 0.5em;
+    color: #B9B9B9;
+    font-size: 1.3em;
+}
+
+.pagination-action:hover,
+.pagination-previous,
+.pagination-next {
+    color: #3354AA;
+}
+
+.pagination_center{
+  margin: auto;
+  width: 50%;
+  padding: 100px;
+}
+
+    </style>
+</head>
+<body >
+
+	<nav class="navbar navbar-inverse">
+
+                <div class="container-fluid">
+
+                    <!-- Header -->
+
+                    <div class="navbar-header">
+
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <a class="navbar-brand" href="">Movies</a>&emsp;&emsp;
+                    </div>
+
+                    <!-- Items -->
+                    <div class="collapse navbar-collapse" id="topNavBar">
+
+                        <ul class="nav navbar-nav ">
+                            <li><a class="navbar-brand" href="{% url 'index' %}">&nbsp; Home </a></li>
+						</ul>
+
+<!--                        <nav class="navbar navbar-bottom">-->
+    <footer class="page-footer font-small">
+        &emsp;&emsp;&emsp;&emsp;&emsp;
+<!--          <div class="text-center center-block">-->
+                <a href="https://www.facebook.com/"><i id="social-fb" class="fa fa-facebook-square fa-3x social"></i></a>
+                <a href="https://twitter.com/"><i id="social-tw" class="fa fa-twitter-square fa-3x social"></i></a>
+                <a href="https://www.linkedin.com/"><i class="fa fa-linkedin-square fa-3x social"></i></a>
+                <a href="https://github.com/"><i id="social-git"class="fa fa-github-square fa-3x"></i></a>
+<!--        </div>-->
+    </footer>
+<!--    </nav>-->
+
+                        <ul class="nav navbar-nav navbar-right">
+                         {% if not request.user.is_authenticated %}
+                            <li>
+                                <a href="{% url 'signup' %}">
+                                    <span aria-hidden="true"></span>&nbsp; 
+                                    SignUp
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'login' %}">
+                                    <span aria-hidden="true"></span>&nbsp; Login
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="{% url 'logout' %}">
+                                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;Logout 
+                                </a>
+                            </li>
+                        {% endif %}
+                        </ul>
+
+                    </div>
+
+                </div>
+
+    </nav>
+</div>
+    {% block body %}
+    {% endblock %}
+
+	<script type="text/javascript" src="{%static 'web/js/jquery.min.js'%}">
+	</script>
+
+	<script type="text/javascript" src="{%static 'web/js/bootstrap.min.js'%}">
+	</script>
+    <script type="text/javascript">
+    var $star_rating = $('.star-rating .fa');
+
+    var SetRatingStar = function() {
+        return $star_rating.each(function() {
+        if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+            return $(this).removeClass('fa-star-o').addClass('fa-star');
+        } else {
+        return $(this).removeClass('fa-star').addClass('fa-star-o');
+        }
+        });
+        };
+
+    $star_rating.on('click', function() {
+    $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+    return SetRatingStar();
+    });
+
+    SetRatingStar();
+    $(document).ready(function() {
+
+    });
+        
+</script>
+<script type="text/javascript">
+    function validateForm(){
+    var x = document.forms["ratingForm"]["rating"].value;
+    if(x=="0"){
+        alert("Invalid Input");
+        return false;
+    }
+    }
+</script>
+
+</body>
+</html>
